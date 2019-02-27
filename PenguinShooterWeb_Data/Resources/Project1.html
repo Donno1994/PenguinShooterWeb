@@ -1,0 +1,514 @@
+<html>
+<body style="background-color:powderblue;" onload="update_prices();">
+
+
+<div id="demo"></div>
+
+<script>
+
+var price_new_life=200;
+var price_bright=56;
+var price_keys_normal=77;
+var price_visible=150;
+var price_freeze=15;
+var price_angry=90;
+var price_dark=80;
+var price_black=60;
+var price_swap=110;
+var price_music=200;
+var price_attack=370;
+var price_soldier=250;
+var price_disco=400;
+var price_freeze_monster=15;
+var price_star=900;
+var price_openCage=500;
+var price_chat=10;
+var price_invisible=15;
+
+var invoice;
+
+ function load ()
+{
+  var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function()
+   {
+    if (this.readyState == 4 && this.status == 200)
+      {
+        console.log(this.responseText);
+        var res = this.responseText.split(",");
+
+        price_freeze_monster=res[0];
+        price_star=res[1];
+        price_new_life=res[2];
+        price_bright=res[3];
+        price_keys_normal=res[4];
+        price_openCage=res[5];
+        price_visible=res[6];
+
+        price_freeze=res[7];
+        price_angry=res[8];
+        price_dark=res[9];
+        price_black=res[10];
+        price_swap=res[11];
+        price_invisible=res[12];
+        price_attack=res[13];
+        price_soldier=res[14];
+
+        price_music=res[15];
+        price_chat=res[16];
+        price_disco=res[17];
+      }
+   };
+
+xhttp.open("POST", "", true);
+xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+var params = 'updatePrice';
+  xhttp.send(params);
+}
+
+function loadQR ()
+{
+ var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function()
+  {
+   if (this.readyState == 4 && this.status == 200)
+     {
+       console.log(this.responseText);
+       //var res = this.responseText.split(",");
+       //invoice=res[0];
+       document.getElementById("inhalt-4").innerHTML=this.responseText;
+     }
+  };
+
+xhttp.open("POST", "", true);
+xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+var params = 'getQR, Robin, freeze';
+ xhttp.send(params);
+}
+
+function sendRequest (inpu)
+{
+  // inpu="&swap=Pay";
+  //console.log(inpu);
+ var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function()
+  {
+   if (this.readyState == 4 && this.status == 200)
+     {
+       console.log(this.responseText);
+       //var res = this.responseText.split(",");
+       //invoice=res[0];
+       $('#qrcode').empty();
+       jQuery('#qrcode').qrcode(this.responseText);
+       $("#invoice_display").text(this.responseText.replace('lightning:',''));
+       //document.getElementById("invoice_display").value="this.responseText";
+       $("a").attr("href",this.responseText);
+       document.getElementById("invoice_div").style.display = 'block';
+     }
+  };
+
+xhttp.open("POST", "", true);
+xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+var params = 'buyer='+document.getElementById("buyer_input").value+inpu;
+if(params.includes("invisible")){params=params.replace("xx",document.getElementById("invisible_second").value);}
+if(params.includes("freeze_streamer")){params=params.replace("x",document.getElementById("freeze_second").value);}
+if(params.includes("freeze_monster")){params=params.replace("x",document.getElementById("freeze_second_monster").value);}
+if(params.includes("chat")){params=params.replace("x",document.getElementById("message").value);}
+if(params.includes("Music"))
+{
+  if (document.getElementById('music1').checked) {params=params.replace("x","Linkin Park");}
+  if (document.getElementById('music2').checked) {params=params.replace("x","Beethoven");}
+  if (document.getElementById('music4').checked) {params=params.replace("x","Standard");}
+}
+
+if(params.includes("shop"))
+{
+  params=params.replace("xsheep",document.getElementById("buySheep").value);document.getElementById("buySheep").value="";
+  params=params.replace("xrabbit",document.getElementById("buyRabbit").value);document.getElementById("buyRabbit").value="";
+  params=params.replace("xpenguin",document.getElementById("buyPenguin").value);document.getElementById("buyPenguin").value="";
+  params=params.replace("xmonkey",document.getElementById("buyMonkey").value);document.getElementById("buyMonkey").value="";
+  params=params.replace("xpig",document.getElementById("buyPig").value);document.getElementById("buyPig").value="";
+  params=params.replace("xbear",document.getElementById("buyBear").value);document.getElementById("buyBear").value="";
+  params=params.replace("xapple",document.getElementById("buyApple").value);document.getElementById("buyApple").value="";
+  params=params.replace("xbanana",document.getElementById("buyBanana").value);document.getElementById("buyBanana").value="";
+  params=params.replace("xkiwi",document.getElementById("buyKiwi").value);document.getElementById("buyKiwi").value="";
+  params=params.replace("xhps",document.getElementById("buyHPS").value);document.getElementById("buyHPS").value="";
+  params=params.replace("xhpm",document.getElementById("buyHPM").value);document.getElementById("buyHPM").value="";
+  params=params.replace("xhpl",document.getElementById("buyHPL").value);document.getElementById("buyHPL").value="";
+  params=params.replace("xmps",document.getElementById("buyMPS").value);document.getElementById("buyMPS").value="";
+  params=params.replace("xmpm",document.getElementById("buyMPM").value);document.getElementById("buyMPM").value="";
+  params=params.replace("xmpl",document.getElementById("buyMPL").value);document.getElementById("buyMPL").value="";
+}
+if(params.includes("steal"))
+{
+  params=params.replace("xapple",document.getElementById("stealApple").value);document.getElementById("stealApple").value="";
+  params=params.replace("xbanana",document.getElementById("stealBanana").value);document.getElementById("stealBanana").value="";
+  params=params.replace("xkiwi",document.getElementById("stealKiwi").value);document.getElementById("stealKiwi").value="";
+  params=params.replace("xhps",document.getElementById("stealHPS").value);document.getElementById("stealHPS").value="";
+  params=params.replace("xhpm",document.getElementById("stealHPM").value);document.getElementById("stealHPM").value="";
+  params=params.replace("xhpl",document.getElementById("stealHPL").value);document.getElementById("stealHPL").value="";
+  params=params.replace("xmps",document.getElementById("stealMPS").value);document.getElementById("stealMPS").value="";
+  params=params.replace("xmpm",document.getElementById("stealMPM").value);document.getElementById("stealMPM").value="";
+  params=params.replace("xmpl",document.getElementById("stealMPL").value);document.getElementById("stealMPL").value="";
+}
+
+console.log(params);
+ xhttp.send(params);
+}
+
+
+setInterval(function() {
+  load();
+  update_prices();
+
+}, 5000);
+
+function copyClipboard() {
+  /* Get the text field */
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(document.getElementById("invoice_display")).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+  document.getElementById("copy_button").innerHTML ="Copied";
+  setTimeout(function(){document.getElementById("copy_button").innerHTML ="Copy to clipboard";}, 3000);
+
+
+  /* Alert the copied text */
+  //alert("Copied the text: " + copyText.value);
+}
+
+
+</script>
+
+
+
+
+
+
+
+  <style type="text/css">
+  <!--
+  div#names{height:320px;}
+  div#qrcode { position: absolute;left: 600px;top: 10px;}
+  div#invoice_div{position: absolute;left: 0;top: 265px;font-size: 15px;display:none;}
+  div#inhalt-1{ background: #2EFE2E; float: left; width: 50%; position: relative;}
+  div#inhalt-2{ background: #FF8000; float: left; width: 50%; }
+
+  div#all2{Clear: Both}
+  div#inhalt-3 {  float: left;}
+
+
+  div#footer { clear: left; }
+
+  div#price_freeze_element{display: inline;}
+  div#price_angry_element{display: inline;}
+  div#price_dark_element{display: inline;}
+  div#price_black_element{display: inline;}
+  div#price_swap_element{display: inline;}
+  div#price_music_element{display: inline;}
+  div#price_attack_element{display: inline;}
+  div#price_soldier_element{display: inline;}
+  div#price_disco_element{display: inline;}
+  div#price_freezeMonster_element{display: inline;}
+  div#price_star_element{display: inline;}
+  div#price_bright_element{display: inline;}
+  div#price_newLife_element{display: inline;}
+  div#price_swapNormal_element{display: inline;}
+  div#price_openCage_element{display: inline;}
+  div#price_chat_element{display: inline;}
+  div#price_invisible_element{display: inline;}
+  div#price_stopInvisible_element{display: inline;}
+
+  -->
+  </style>
+
+
+
+  <div style="background: #2EF3F7;" id="names">
+    Enter your name! (will be displayed in the stream):<input style="width:140px;" id="buyer_input" type="text" name="buyer"   value="Stranger">
+    <button onclick="change_name()">Update Name</button><br>
+
+
+    <h3 style="float: left">Your name is set to:</h3> <h3 style="float: left" id="myName">Stranger</h3>
+    <h3 style="float: left">. Your target is set to:</h3> <h3 style="float: left" id="TargetName">Twitch</h3>
+    <h1/><br>
+
+    <div>
+    <HTML>
+       <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+       <script type='text/javascript' src='https://cdn.rawgit.com/jeromeetienne/jquery-qrcode/master/jquery.qrcode.min.js'></script>
+       <a id="ref_link" href="lightning:lnbc1pwxhcqrpp5uvmr89ecfen37k7l5qatykt074uly5nke5682lkwv73pftzfawzqdph235hqurfdcsyy5jl2fhky6twyq58g6tswp5kutndv55jsaf38qerz2gcqzysxqyz5vqhcdxmf0v5v38hs5aesqju0z8ewal77wkhvxyn2taajs6rn5kzszz9z8a5pcy94rgxx7jw430xdf83ra0gq9df5xrcte3je7a4m0qnjgqputhxf">
+       <div id = 'qrcode' >
+
+       </div ></a>
+       <div id='invoice_div'>
+       <div id='invoice_display'>Display</div>
+       <button id="copy_button" onclick="copyClipboard()">Copy to clipboard</button>
+       </div>
+    </HTML>
+    </div>
+  </div>
+
+  <div id="all">
+    <div id="inhalt-1">
+
+
+      <h3>Support the streamer! (Satoshi prices in brackets)</h3>
+        Buy monster and items<br>
+       Sheep(3): <input id="buySheep" style="width:40px;" type="text" name="sheep"/>
+       Rabbit(9): <input id="buyRabbit" style="width:40px;" type="text" name="rabbit">
+        Penguin(15): <input id="buyPenguin" style="width:40px;" type="text" name="penguin"><br>
+        Monkey(28): <input id="buyMonkey" style="width:40px;" type="text" name="monkey">
+        Pig(43): <input id="buyPig" style="width:40px;" type="text" name="pig">
+        Bear(58): <input id="buyBear" style="width:40px;" type="text" name="bear"><br>
+        Apple(3): <input id="buyApple" style="width:40px;" type="text" name="apple">
+        Banana(6): <input id="buyBanana" style="width:40px;" type="text" name="banana">
+        Kiwi(10): <input id="buyKiwi" style="width:40px;" type="text" name="kiwi"><br>
+        HpSmall(2): <input id="buyHPS" style="width:40px;" type="text" name="hpsmall">
+        HpMedium(9): <input id="buyHPM" style="width:40px;" type="text" name="hpmedium">
+        HpLarge(17): <input id="buyHPL" style="width:40px;" type="text" name="hplarge"><br>
+        MpSmall(2): <input id="buyMPS" style="width:40px;" type="text" name="mpsmall">
+        MpMedium(7): <input id="buyMPM" style="width:40px;" type="text" name="mpmedium">
+        MpLarge(15): <input id="buyMPL" style="width:40px;" type="text" name="mplarge">
+        <button onclick="sendRequest('&sheep=xsheep&rabbit=xrabbit&penguin=xpenguin&monkey=xmonkey&pig=xpig&bear=xbear&apple=xapple&banana=xbanana&kiwi=xkiwi&hpsmall=xhps&hpmedium=xhpm&hplarge=xhpl&mpsmall=xmps&mpmedium=xmpm&mplarge=xmpl&shop');">Buy</button><br>
+        <br>
+
+        All monsters can't move for
+        <input id="freeze_second_monster" onkeypress='validate_freeze_monster(event)' style="width:20px;" name="time" value="5"> seconds <div id="price_freezeMonster_element"></div>
+        <button onclick="sendRequest('&time=x&freeze_monster');">FreezeMonsters</button><br>
+
+        The streamer gets super power for 20 seconds <div id="price_star_element"></div>
+        <button onclick="sendRequest('&star');">Star</button><br>
+
+        Pay for a new life. If the streamer is alive, this has no effect. <div id="price_newLife_element"></div>
+        <button onclick="sendRequest('&newlife');">NewLife</button><br><br>
+
+     It will get bright/day <div id="price_bright_element"></div>
+     <button onclick="sendRequest('&day');">Day</button><br>
+
+      Left and Right Keys will work normal again <div id="price_swapNormal_element"></div>
+       <button onclick="sendRequest('&swap_normal');">KeysNormal</button><br>
+
+
+
+
+
+ Open the tiger gate and let the evil tigers escape. <div id="price_openCage_element"></div>
+ <button onclick="sendRequest('&openCage');">OpenCage</button><br>
+
+ Makes all invisible monster visible again <div id="price_stopInvisible_element"></div>
+ <button onclick="sendRequest('&stopInvisible');">StopInvisible</button><br>
+
+
+
+
+
+
+
+  </div>
+
+    <div id="inhalt-2">
+
+
+      <h3>Annoy thes streamer!</h3>
+      Steal some items from the streamer<br>
+
+        Apple(3): <input id="stealApple" style="width:40px;" type="text" name="apple">
+        Banana(6): <input id="stealBanana" style="width:40px;" type="text" name="banana">
+        Kiwi(10): <input id="stealKiwi" style="width:40px;" type="text" name="kiwi"><br>
+        HpSmall(2): <input id="stealHPS" style="width:40px;" type="text" name="hpsmall">
+        HpMedium(9): <input id="stealHPM" style="width:40px;" type="text" name="hpmedium">
+        HpLarge(17): <input id="stealHPL" style="width:40px;" type="text" name="hplarge"><br>
+        MpSmall(2): <input id="stealMPS" style="width:40px;" type="text" name="mpsmall">
+        MpMedium(7): <input id="stealMPM" style="width:40px;" type="text" name="mpmedium">
+        MpLarge(15): <input id="stealMPL" style="width:40px;" type="text" name="mplarge">
+
+     <button onclick="sendRequest('&apple=xapple&banana=xbanana&kiwi=xkiwi&hpsmall=xhps&hpmedium=xhpm&hplarge=xhpl&mpsmall=xmps&mpmedium=xmpm&mplarge=xmpl&steal');">Steal</button><br>
+     <br>
+
+      The streamer can't move for
+      <input id="freeze_second" onkeypress='validate_freeze(event)' style="width:20px;" name="time" value="5"> seconds <div id="price_freeze_element"></div>
+     <button onclick="sendRequest('&time=x&freeze_streamer');">Freeze</button><br>
+
+     All monsters will be angry on the streamer for 10 seconds <div id="price_angry_element"></div>
+      <button onclick="sendRequest('&angry');">Angry</button><br>
+
+    It will get dark/night <div id="price_dark_element"></div>
+     <button onclick="sendRequest('&night');">Night</button><br>
+
+   A black spot will reduce the view of the streamer for 10 sec <div id="price_black_element"></div>
+    <button onclick="sendRequest('&blackspot');">BlackSpot</button><br>
+
+
+ Turning left and right will be swapped on keyboard until another viewer helps him <div id="price_swap_element"></div>
+ <button onclick="sendRequest('&swap');">Swap</button><br>
+
+Monsters will be invisible for
+<input id="invisible_second" onkeypress='validate_invisible(event)' style="width:30px;" name="time" value="20"> seconds <div id="price_invisible_element"></div>
+<button onclick="sendRequest('&time=xx&invisible');">Invisible</button><br>
+
+You attack the streamer. He will looses 20% HP each second until he has 1HP left <div id="price_attack_element"></div>
+<button onclick="sendRequest('&attack');">Attack</button><br>
+
+Spawn a soldier that fights against the streamer <div id="price_soldier_element"></div>
+<button onclick="sendRequest('&soldier');">Soldier</button><br>
+
+</div>
+</div>
+<div id="all2">
+<div id="inhalt-3">
+<h3>Neutral Payments</h3>
+
+Send a message to the game chat: <div id="price_chat_element"></div> <input id="message" style="width:340px;" type="text" name="message">
+<button onclick="sendRequest('&chat=x');">Chat</button><br><br>
+
+   You can change the music in the game <div id="price_music_element"></div>:<br>
+      <input type="radio" id="music1" name="Music" value="Linkin Park">
+      <label for="music1"> Linkin Park</label>
+      <input type="radio" id="music2" name="Music" value="Beethoven">
+      <label for="music2"> Beethoven</label>
+
+      <input type="radio" id="music4" name="Music" value="Standard">
+      <label for="music4"> Standard</label>
+
+<button onclick="sendRequest('&Music=x');">ChangeMusic</button><br>
+
+Activate/Extend the disco for 1 minute.<div id="price_disco_element"></div>
+<button onclick="sendRequest('&disco=Pay');">Start</button>Or stop it
+<button onclick="sendRequest('&disco=Stop');">Stop</button><br>
+
+</div>
+
+
+</div>
+<script>
+
+var sheep_num=1;
+
+function change_name()
+{
+  document.getElementById("myName").innerHTML = document.getElementById("buyer_input").value;
+
+  document.getElementById("buyerid1").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid2").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid3").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid4").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid5").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid6").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid7").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid8").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid10").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid11").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid12").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid13").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid14").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid15").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid16").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid17").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid18").value = document.getElementById("buyer_input").value;
+  document.getElementById("buyerid19").value = document.getElementById("buyer_input").value;
+}
+
+function freeze()
+{
+
+}
+
+function update_prices()
+{
+  document.getElementById("price_freeze_element").innerHTML="("+price_freeze+"/sec)";
+  document.getElementById("price_angry_element").innerHTML="("+price_angry+")";
+  document.getElementById("price_dark_element").innerHTML="("+price_dark+")";
+  document.getElementById("price_black_element").innerHTML="("+price_black+")";
+  document.getElementById("price_swap_element").innerHTML="("+price_swap+")";
+  document.getElementById("price_music_element").innerHTML="("+price_music+")";
+  document.getElementById("price_attack_element").innerHTML="("+price_attack+")";
+  document.getElementById("price_soldier_element").innerHTML="("+price_soldier+")";
+  document.getElementById("price_disco_element").innerHTML="("+price_disco+")";
+  document.getElementById("price_freezeMonster_element").innerHTML="("+price_freeze_monster+"/sec)";
+  document.getElementById("price_star_element").innerHTML="("+price_star+")";
+  document.getElementById("price_openCage_element").innerHTML="("+price_openCage+")";
+  document.getElementById("price_chat_element").innerHTML="("+price_chat+")";
+  document.getElementById("price_invisible_element").innerHTML="("+price_invisible+"/sec)";
+  document.getElementById("price_stopInvisible_element").innerHTML="("+price_visible+")";
+
+  document.getElementById("price_swapNormal_element").innerHTML="("+price_keys_normal+")";
+  document.getElementById("price_bright_element").innerHTML="("+price_bright+")";
+  document.getElementById("price_newLife_element").innerHTML="("+price_new_life+")";
+
+}
+
+function validate_freeze(evt)
+{
+  var theEvent = evt || window.event;
+  var asci;
+  if (theEvent.type === 'paste')
+  {
+      key = event.clipboardData.getData('text/plain');
+  } else {
+  // Handle key press
+      var key = theEvent.keyCode || theEvent.which;
+      asci=key;
+      key = String.fromCharCode(key);
+  }
+  var regex = /[1-9]|\./;
+
+  if( !regex.test(key)&&asci!=8)
+  {
+
+    theEvent.returnValue = false;
+    if(theEvent.preventDefault) theEvent.preventDefault();
+  }else document.getElementById('freeze_second').value = '';
+}
+
+function validate_freeze_monster(evt)
+{
+  var theEvent = evt || window.event;
+  var asci;
+  if (theEvent.type === 'paste')
+  {
+      key = event.clipboardData.getData('text/plain');
+  } else {
+  // Handle key press
+      var key = theEvent.keyCode || theEvent.which;
+      asci=key;
+      key = String.fromCharCode(key);
+  }
+  var regex = /[1-9]|\./;
+
+  if( !regex.test(key)&&asci!=8)
+  {
+
+    theEvent.returnValue = false;
+    if(theEvent.preventDefault) theEvent.preventDefault();
+  }else document.getElementById('freeze_second_monster').value = '';
+}
+
+function validate_invisible(evt)
+{
+  var theEvent = evt || window.event;
+
+  // Handle paste
+  if (theEvent.type === 'paste') {
+      key = event.clipboardData.getData('text/plain');
+  } else {
+  // Handle key press
+      var key = theEvent.keyCode || theEvent.which;
+      key = String.fromCharCode(key);
+  }
+  var regex = /[0-9]|\./;
+  if( !regex.test(key) ) {
+    theEvent.returnValue = false;
+    if(theEvent.preventDefault) theEvent.preventDefault();
+  }
+}
+
+function CreateInvoice()
+{
+  sheep_num=document.getElementById("input_sheep").value;
+}
+
+</script>
+<br><br><br>
+</body>
