@@ -57,7 +57,7 @@ The game uses the SubscribeInvoices feature of LND to get information about all 
 The game will check the "action" part and depending on what it says, it will do something.
 <br>The whole communication goes via the invoice memos.
 <br>This is not the best approach because everyone could fake the memos who has the invoice.macaroon.
-<br>That's why hard coded my invoice.macaroon into the game.
+<br>That's why I hard coded my invoice.macaroon into the game.
 <br>Another downside is: You need payments. It's not possible to send a simple chat message to the ingame chat without paying an invoice.
 
 Anyway, that's my first approach to LN gaming.
