@@ -37,26 +37,29 @@ xhttp.onreadystatechange = function()
         console.log(this.responseText);
         var res = this.responseText.split(",");
 
-        price_freeze_monster=res[0];
-        price_star=res[1];
-        price_new_life=res[2];
-        price_bright=res[3];
-        price_keys_normal=res[4];
-        price_openCage=res[5];
-        price_visible=res[6];
+        price_freeze_monster=res[0];if(price_freeze_monster==0)document.getElementById("freeze_monster_button").disabled = true;else document.getElementById("freeze_monster_button").disabled = false;
+        price_star=res[1];if(price_star==0)document.getElementById("star_button").disabled = true;else document.getElementById("star_button").disabled = false;
+        price_new_life=res[2];if(price_new_life==0)document.getElementById("life_button").disabled = true;else document.getElementById("life_button").disabled = false;
+        price_bright=res[3];if(price_bright==0)document.getElementById("bright_button").disabled = true;else document.getElementById("bright_button").disabled = false;
+        price_keys_normal=res[4];if(price_keys_normal==0)document.getElementById("normal_button").disabled = true;else document.getElementById("normal_button").disabled = false;
+        price_openCage=res[5];if(price_openCage==0)document.getElementById("tiger_button").disabled = true;else document.getElementById("tiger_button").disabled = false;
+        price_visible=res[6];if(price_visible==0)document.getElementById("visible_button").disabled = true;else document.getElementById("visible_button").disabled = false;
 
-        price_freeze=res[7];
-        price_angry=res[8];
-        price_dark=res[9];
-        price_black=res[10];
-        price_swap=res[11];
-        price_invisible=res[12];
-        price_attack=res[13];
-        price_soldier=res[14];
+        price_freeze=res[7];if(price_freeze==0)document.getElementById("streamer_freeze_button").disabled = true;else document.getElementById("streamer_freeze_button").disabled = false;
+        price_angry=res[8];if(price_angry==0)document.getElementById("angry_button").disabled = true;else document.getElementById("angry_button").disabled = false;
+        price_dark=res[9];if(price_dark==0)document.getElementById("dark_button").disabled = true;else document.getElementById("dark_button").disabled = false;
+        price_black=res[10];if(price_black==0)document.getElementById("black_button").disabled = true;else document.getElementById("black_button").disabled = false;
+        price_swap=res[11];if(price_swap==0)document.getElementById("swap_button").disabled = true;else document.getElementById("swap_button").disabled = false;
+        price_invisible=res[12];if(price_invisible==0)document.getElementById("invisible_button").disabled = true;else document.getElementById("invisible_button").disabled = false;
+        price_attack=res[13];if(price_attack==0)document.getElementById("attack_button").disabled = true;else document.getElementById("attack_button").disabled = false;
+        price_soldier=res[14];if(price_soldier==0)document.getElementById("soldier_button").disabled = true;else document.getElementById("soldier_button").disabled = false;
 
-        price_music=res[15];
-        price_chat=res[16];
-        price_disco=res[17];
+        price_chat=res[15];if(price_chat==0)document.getElementById("chat_button").disabled = true;else document.getElementById("chat_button").disabled = false;
+        price_music=res[16];if(price_music==0)document.getElementById("music_button").disabled = true;else document.getElementById("music_button").disabled = false;
+        price_disco=res[17];if(price_disco==0){document.getElementById("disco1_button").disabled = true;document.getElementById("disco2_button").disabled = true;}else{document.getElementById("disco1_button").disabled = false;document.getElementById("disco2_button").disabled = false;}
+
+
+        update_prices();
       }
    };
 
@@ -159,7 +162,7 @@ console.log(params);
 
 setInterval(function() {
   load();
-  update_prices();
+
 
 }, 5000);
 
@@ -219,14 +222,18 @@ function copyClipboard() {
   div#price_chat_element{display: inline;}
   div#price_invisible_element{display: inline;}
   div#price_stopInvisible_element{display: inline;}
-
+  img
+  {
+    position: relative;
+  top: 5px;
+  }
   -->
   </style>
 
 
 
   <div style="background: #2EF3F7;" id="names">
-    Enter your name! (will be displayed in the stream):<input style="width:140px;" id="buyer_input" type="text" name="buyer"   value="Stranger">
+    Enter your name! (will be displayed in the stream):<input onkeypress='validate_name(event)' style="width:140px;" id="buyer_input" type="text" name="buyer"   value="Stranger">
     <button onclick="change_name()">Update Name</button><br>
 
 
@@ -255,7 +262,7 @@ function copyClipboard() {
 
 
       <h3>Support the streamer! (Satoshi prices in brackets)</h3>
-        Buy monster and items<br>
+        Buy monster and items. Monsters will fight against the streamer and help him lvl up.<br>
        Sheep(5): <input id="buySheep" style="width:40px;" type="text" name="sheep"/>
        Rabbit(9): <input id="buyRabbit" style="width:40px;" type="text" name="rabbit">
         Penguin(15): <input id="buyPenguin" style="width:40px;" type="text" name="penguin"><br>
@@ -276,29 +283,41 @@ function copyClipboard() {
 
         All monsters can't move for
         <input id="freeze_second_monster" onkeypress='validate_freeze_monster(event)' style="width:20px;" name="time" value="5"> seconds <div id="price_freezeMonster_element"></div>
-        <button onclick="sendRequest('&time=x&freeze_monster');">FreezeMonsters</button><br>
+        <button id="freeze_monster_button" onclick="sendRequest('&time=x&freeze_monster');">FreezeMonsters</button>
+        <img  height="20" width="20" src="https://cdn1.iconfinder.com/data/icons/weather-19/32/snowflake-1-512.png" alt="SnowFlake">
+        <br>
 
         The streamer gets super power for 20 seconds <div id="price_star_element"></div>
-        <button onclick="sendRequest('&star');">Star</button><br>
+        <button id="star_button" onclick="sendRequest('&star');">Star</button>
+        <img  height="20" width="20" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Gold_Star.svg/240px-Gold_Star.svg.png" alt="Star">
+        <br>
 
         Pay for a new life. If the streamer is alive, this has no effect. <div id="price_newLife_element"></div>
-        <button onclick="sendRequest('&newlife');">NewLife</button><br><br>
+        <button id="life_button" onclick="sendRequest('&newlife');">NewLife</button>
+        <img  height="20" width="20" src="http://www.emojimeanings.org/images/emojis/172.png" alt="Heart"><br><br>
 
      It will get bright/day <div id="price_bright_element"></div>
-     <button onclick="sendRequest('&day');">Day</button><br>
+     <button id="bright_button" onclick="sendRequest('&day');">Day</button>
+     <img  height="20" width="20" src="https://troygastro.com/blog/wp-content/uploads/2015/07/Sun-summer-clip-art-300x300.jpg" alt="Day">
+     <br>
 
       Left and Right Keys will work normal again <div id="price_swapNormal_element"></div>
-       <button onclick="sendRequest('&swap_normal');">KeysNormal</button><br>
+       <button id="normal_button" onclick="sendRequest('&swap_normal');">KeysNormal</button>
+        <img  height="20" width="20" src="https://dumielauxepices.net/sites/default/files/swap-clipart-arrow-icon-786902-6396035.png" alt="Swap">
+        <br>
 
 
 
 
 
  Open the tiger gate and let the evil tigers escape. <div id="price_openCage_element"></div>
- <button onclick="sendRequest('&openCage');">OpenCage</button><br>
+ <button id="tiger_button" onclick="sendRequest('&openCage');">OpenCage</button>
+ <img  height="20" width="20" src="https://cdn4.iconfinder.com/data/icons/cute-tiger-emoticon/300/Tiger_Emoticon-04-512.png" alt="Cage">
+ <img  height="20" width="20" src="https://cdn4.iconfinder.com/data/icons/cute-tiger-emoticon/300/Tiger_Emoticon-04-512.png" alt="Cage">
+ <br>
 
  Makes all invisible monster visible again <div id="price_stopInvisible_element"></div>
- <button onclick="sendRequest('&stopInvisible');">StopInvisible</button><br>
+ <button id="visible_button" onclick="sendRequest('&stopInvisible');">StopInvisible</button><br>
 
 
 
@@ -329,39 +348,53 @@ function copyClipboard() {
 
       The streamer can't move for
       <input id="freeze_second" onkeypress='validate_freeze(event)' style="width:20px;" name="time" value="5"> seconds <div id="price_freeze_element"></div>
-     <button onclick="sendRequest('&time=x&freeze_streamer');">Freeze</button><br>
+      <button id="streamer_freeze_button" onclick="sendRequest('&time=x&freeze_streamer');">Freeze</button>
+      <img  height="20" width="20" src="https://cdn1.iconfinder.com/data/icons/weather-19/32/snowflake-1-512.png" alt="SnowFlake">
+      <br>
 
      All monsters will be angry on the streamer for 10 seconds <div id="price_angry_element"></div>
-      <button onclick="sendRequest('&angry');">Angry</button><br>
+      <button id="angry_button" onclick="sendRequest('&angry');">Angry</button>
+      <img  height="20" width="20" src="http://www.myiconfinder.com/uploads/iconsets/256-256-e055bac1058791ddc8242f03995d2145-angry.png" alt="Angry">
+      <br>
 
     It will get dark/night <div id="price_dark_element"></div>
-     <button onclick="sendRequest('&night');">Night</button><br>
+     <button id="dark_button" onclick="sendRequest('&night');">Night</button>
+     <img  height="20" width="20" src="https://visualpharm.com/assets/218/Moon%20And%20Stars-595b40b65ba036ed117d29ae.svg" alt="Moon">
+     <br>
 
    A black spot will reduce the view of the streamer for 10 sec <div id="price_black_element"></div>
-    <button onclick="sendRequest('&blackspot');">BlackSpot</button><br>
+    <button id="black_button" onclick="sendRequest('&blackspot');">BlackSpot</button>
+    <img  height="20" width="20" src="https://static1.squarespace.com/static/55fc0004e4b069a519961e2d/t/55fc301ae4b01342ae9212a1/1442590746805/?format=300w" alt="Black">
+    <br>
 
 
  Turning left and right will be swapped on keyboard until another viewer helps him <div id="price_swap_element"></div>
- <button onclick="sendRequest('&swap');">Swap</button><br>
+ <button id="swap_button" onclick="sendRequest('&swap');">Swap</button>
+ <img  height="20" width="20" src="https://dumielauxepices.net/sites/default/files/swap-clipart-arrow-icon-786902-6396035.png" alt="Swap">
+ <br>
 
 Monsters will be invisible for
 <input id="invisible_second" onkeypress='validate_invisible(event)' style="width:30px;" name="time" value="20"> seconds <div id="price_invisible_element"></div>
-<button onclick="sendRequest('&time=xx&invisible');">Invisible</button><br>
+<button id="invisible_button" onclick="sendRequest('&time=xx&invisible');">Invisible</button><br>
 
 You attack the streamer. He will looses 20% HP each second until he has 1HP left <div id="price_attack_element"></div>
-<button onclick="sendRequest('&attack');">Attack</button><br>
+<button id="attack_button" onclick="sendRequest('&attack');">Attack</button>
+<img  height="20" width="20" src="http://www.emojimeanings.org/images/emojis/172.png" alt="Heart">
+<img  height="20" width="20" src="https://images.emojiterra.com/google/android-oreo/128px/1f52b.png" alt="Gun">
+<br>
 
 Spawn a soldier that fights against the streamer <div id="price_soldier_element"></div>
-<button onclick="sendRequest('&soldier');">Soldier</button><br>
+<button id="soldier_button" onclick="sendRequest('&soldier');">Soldier</button>
+<img  height="20" width="20" src="https://image.flaticon.com/icons/svg/92/92776.svg" alt="Soldier">
+<br>
 
 </div>
 </div>
 <div id="all2">
 <div id="inhalt-3">
 <h3>Neutral Payments</h3>
-
 Send a message to the game chat: <div id="price_chat_element"></div> <input id="message" style="width:340px;" type="text" name="message">
-<button onclick="sendRequest('&chat=x');">Chat</button><br><br>
+<button id="chat_button" onclick="sendRequest('&chat=x');">Chat</button><br><br>
 
    You can change the music in the game <div id="price_music_element"></div>:<br>
       <input type="radio" id="music1" name="Music" value="Linkin Park">
@@ -369,14 +402,14 @@ Send a message to the game chat: <div id="price_chat_element"></div> <input id="
       <input type="radio" id="music2" name="Music" value="Beethoven">
       <label for="music2"> Beethoven</label>
 
-      <input type="radio" id="music4" name="Music" value="Standard">
+      <input type="radio" id="music4" name="Music" value="Standard" checked="checked">
       <label for="music4"> Standard</label>
 
-<button onclick="sendRequest('&Music=x');">ChangeMusic</button><br>
+<button id="music_button" onclick="sendRequest('&Music=x');">ChangeMusic</button><br>
 
 Activate/Extend the disco for 1 minute.<div id="price_disco_element"></div>
-<button onclick="sendRequest('&disco=Pay');">Start</button>Or stop it
-<button onclick="sendRequest('&disco=Stop');">Stop</button><br>
+<button id="disco1_button" onclick="sendRequest('&disco=Pay');">Start</button>Or stop it
+<button id="disco2_button" onclick="sendRequest('&disco=Stop');">Stop</button><br>
 
 </div>
 
@@ -460,6 +493,25 @@ function validate_freeze(evt)
     theEvent.returnValue = false;
     if(theEvent.preventDefault) theEvent.preventDefault();
   }else document.getElementById('freeze_second').value = '';
+}
+
+function validate_name(evt)
+{
+  var theEvent = evt || window.event;
+
+  // Handle paste
+  if (theEvent.type === 'paste') {
+      key = event.clipboardData.getData('text/plain');
+  } else {
+  // Handle key press
+      var key = theEvent.keyCode || theEvent.which;
+      key = String.fromCharCode(key);
+  }
+  var regex = /^[0-9a-zA-Z]+$/;
+  if( !regex.test(key) ) {
+    theEvent.returnValue = false;
+    if(theEvent.preventDefault) theEvent.preventDefault();
+  }
 }
 
 function validate_freeze_monster(evt)
