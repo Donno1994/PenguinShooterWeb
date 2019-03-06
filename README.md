@@ -16,7 +16,6 @@ Unfortunately I don't know how to stream. I always had a bad video quality and 1
 I found out that streaming is a huge project for itself, so I hope there is someone who has already more experience wants to give it a try :)
 
 ## Requirements
-To play this game you need a Bitcoin Lightning Wallet. To setup a LN node on a Raspberry Pi, follow this guide https://github.com/Stadicus/guides/blob/master/raspibolt/README.md . If this is to hard for you, you can use https://bluewallet.io/ as a custodial solution. You also need a windows computer.
 
 To connect this game with your own node, you need the LND implementation of LN https://github.com/lightningnetwork/lnd Important are the invoice.macaroon and tls.cert
 You need to setup portforwarding (port 8079)
